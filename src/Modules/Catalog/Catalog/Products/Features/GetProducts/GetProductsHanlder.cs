@@ -3,14 +3,14 @@
 
 namespace Catalog.Products.Features.GetProducts;
 
-public record GetProductsQuery() : IQuery<GetProductsResponse>;
+public record GetProductsQuery() : IQuery<GetProductsResult>;
 
-public record GetProductsResponse(IEnumerable<ProductDto> Products);
+public record GetProductsResult(IEnumerable<ProductDto> Products);
 
-public class GetProductsHanlder(CatalogDbContext dbContext)
-    : IQueryHandler<GetProductsQuery, GetProductsResponse>
+internal class GetProductsHanlder(CatalogDbContext dbContext)
+    : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
-    public async Task<GetProductsResponse> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+    public async Task<GetProductsResult> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
         var products = await dbContext.Products
             .AsNoTracking()
@@ -20,7 +20,7 @@ public class GetProductsHanlder(CatalogDbContext dbContext)
 
         var prosuctsDto = products.Adapt<List<ProductDto>>();
 
-        return new GetProductsResponse(prosuctsDto);
+        return new GetProductsResult(prosuctsDto);
     }
 }
 

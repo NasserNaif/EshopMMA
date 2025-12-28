@@ -5,13 +5,13 @@ using MediatR;
 
 namespace Catalog.Products.Features.DeleteProduct;
 
-public record DeleteProductCommand(Guid Id) : ICommand<DeleteProoductReasponse>;
+public record DeleteProductCommand(Guid Id) : ICommand<DeleteProoductResult>;
 
-public record DeleteProoductReasponse(bool isSuccess);
-public class DeleteProductHandler(CatalogDbContext dbContext)
-        : ICommandHandler<DeleteProductCommand, DeleteProoductReasponse>
+public record DeleteProoductResult(bool isSuccess);
+internal class DeleteProductHandler(CatalogDbContext dbContext)
+        : ICommandHandler<DeleteProductCommand, DeleteProoductResult>
 {
-    public async Task<DeleteProoductReasponse> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+    public async Task<DeleteProoductResult> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
         var product = await dbContext.Products
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
@@ -25,6 +25,6 @@ public class DeleteProductHandler(CatalogDbContext dbContext)
         await dbContext.SaveChangesAsync(cancellationToken);
 
 
-        return new DeleteProoductReasponse(isSuccess: true);
+        return new DeleteProoductResult(isSuccess: true);
     }
 }

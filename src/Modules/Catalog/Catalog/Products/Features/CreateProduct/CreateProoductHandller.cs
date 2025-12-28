@@ -3,15 +3,15 @@
 
 namespace Catalog.Products.Features.CreateProduct;
 
-public record CreateProductCommand(ProductDto Product) : ICommand<CreateProoductReasponse>;
+public record CreateProductCommand(ProductDto Product) : ICommand<CreateProoductResult>;
 
-public record CreateProoductReasponse(Guid id);
+public record CreateProoductResult(Guid id);
 
 
-public class CreateProoductHandller(CatalogDbContext dbContext)
-    : ICommandHandler<CreateProductCommand, CreateProoductReasponse>
+internal class CreateProoductHandller(CatalogDbContext dbContext)
+    : ICommandHandler<CreateProductCommand, CreateProoductResult>
 {
-    public async Task<CreateProoductReasponse> Handle(CreateProductCommand request,
+    public async Task<CreateProoductResult> Handle(CreateProductCommand request,
         CancellationToken cancellationToken)
     {
         // Implement the logic to create a product here.
@@ -26,13 +26,13 @@ public class CreateProoductHandller(CatalogDbContext dbContext)
 
 
         // Return the response with the new product's ID
-        return new CreateProoductReasponse(newProduct.Id);
+        return new CreateProoductResult(newProduct.Id);
     }
 
     private Product CreateNewProduct(ProductDto product)
     {
         return Product.Create(
-            product.Id,
+            Guid.NewGuid(),
             product.Name,
             product.Description,
             product.Catagory,

@@ -1,13 +1,13 @@
 ﻿namespace Catalog.Products.Features.GetProductsByCatagory;
 
-public record GetProductsByCategoryQuery(string Category) : IQuery<GetProductsByCategoryResponse>;
+public record GetProductsByCategoryQuery(string Category) : IQuery<GetProductsByCategoryResult>;
 
-public record GetProductsByCategoryResponse(IEnumerable<ProductDto> Products);
+public record GetProductsByCategoryResult(IEnumerable<ProductDto> Products);
 
 internal class GetProductsByCategory(CatalogDbContext dbContext)
-    : IQueryHandler<GetProductsByCategoryQuery, GetProductsByCategoryResponse>
+    : IQueryHandler<GetProductsByCategoryQuery, GetProductsByCategoryResult>
 {
-    public async Task<GetProductsByCategoryResponse> Handle(GetProductsByCategoryQuery request, CancellationToken cancellationToken)
+    public async Task<GetProductsByCategoryResult> Handle(GetProductsByCategoryQuery request, CancellationToken cancellationToken)
     {
         var products = await dbContext.Products
             .AsNoTracking()
@@ -15,6 +15,6 @@ internal class GetProductsByCategory(CatalogDbContext dbContext)
             .OrderBy(p => p.Name)
             .ToListAsync(cancellationToken);
 
-        return new GetProductsByCategoryResponse(products.Adapt<List<ProductDto>>());
+        return new GetProductsByCategoryResult(products.Adapt<List<ProductDto>>());
     }
 }

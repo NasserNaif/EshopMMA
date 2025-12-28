@@ -2,13 +2,13 @@
 
 namespace Catalog.Products.Features.UpdateProduct;
 
-public record UpdateProductCommand(ProductDto Product) : ICommand<UpdateProductReasponse>;
+public record UpdateProductCommand(ProductDto Product) : ICommand<UpdateProductResult>;
 
-public record UpdateProductReasponse(Guid id);
+public record UpdateProductResult(bool isSuccess);
 internal class UpdateProduct(CatalogDbContext dbContext)
-    : ICommandHandler<UpdateProductCommand, UpdateProductReasponse>
+    : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
-    public async Task<UpdateProductReasponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var product = await dbContext.Products
             .FirstOrDefaultAsync(p => p.Id == request.Product.Id, cancellationToken);
@@ -23,7 +23,7 @@ internal class UpdateProduct(CatalogDbContext dbContext)
         dbContext.Products.Update(product);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return new UpdateProductReasponse(product.Id);
+        return new UpdateProductResult(isSuccess: true);
     }
 
     private void UpdateProductWithNewValues(Product product1, ProductDto product2)

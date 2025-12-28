@@ -49,10 +49,9 @@ namespace Catalog.Products.Models
             Description = description;
             Catagory = catacory;
             ImageFile = image;
-            Price = price;
             
             // : if price has changed raise domain event ( ProsuctPriceChanged )
-            if (Price > price)
+            if (Price != price)
             {
                 Price = price;
                 AddDomainEvent(new ProductPriceChangedEvent(this));
