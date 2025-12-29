@@ -5,6 +5,20 @@ namespace Catalog.Products.Features.UpdateProduct;
 public record UpdateProductCommand(ProductDto Product) : ICommand<UpdateProductResult>;
 
 public record UpdateProductResult(bool isSuccess);
+
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(x => x.Product).NotNull();
+        RuleFor(x => x.Product.Id).NotEmpty().WithMessage("Product ID is required");
+        RuleFor(x => x.Product.Name).NotEmpty().WithMessage("Name is required");
+        RuleFor(x => x.Product.ImageFile).NotEmpty().WithMessage("ImageFile is required");
+        RuleFor(x => x.Product.Catagory).NotEmpty().WithMessage("Catagory is required");
+        RuleFor(x => x.Product.Description).MaximumLength(500).WithMessage("Description is required");
+        RuleFor(x => x.Product.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
+    }
+}
 internal class UpdateProduct(CatalogDbContext dbContext)
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {

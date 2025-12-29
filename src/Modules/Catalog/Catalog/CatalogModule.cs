@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Behaviors;
 
 
 namespace Catalog;
@@ -22,7 +23,13 @@ public static class CatalogModule
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+            // add pipeline behaviors for MediatR to Validate requests
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+
+        // add fluent validation
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         // - Data - Infrastructure services
 
