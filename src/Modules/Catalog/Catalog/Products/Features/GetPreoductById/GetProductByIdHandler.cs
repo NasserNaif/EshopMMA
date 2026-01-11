@@ -1,4 +1,6 @@
-﻿namespace Catalog.Products.Features.GetPreoductById;
+﻿using Catalog.Products.Exceptions;
+
+namespace Catalog.Products.Features.GetPreoductById;
 
 public record GetProductByIdQuery(Guid Id) : IQuery<GetProductByIdResult>;
 
@@ -15,7 +17,7 @@ internal class GetProductByIdHandler(CatalogDbContext dbContext)
 
         if (product == null)
         {
-            throw new Exception($"Product with Id {request.Id} not found.");
+            throw new ProductNotFoundException(request.Id);
         }
 
         return new GetProductByIdResult(product.Adapt<ProductDto>());

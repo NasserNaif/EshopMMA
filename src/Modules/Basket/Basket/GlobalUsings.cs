@@ -1,14 +1,9 @@
 ﻿global using Shared.DDD;
-global using Catalog.Products.Models;
-global using Catalog.Products.Events;
 global using Microsoft.EntityFrameworkCore;
 global using System.Reflection;
-global using Catalog.Data;
-global using Catalog.Data.Seed;
 global using Shared.Data;
 global using Shared.Data.Seed;
 global using Shared.Data.Interceptors;
-global using Catalog.Products.DTO;
 global using Shared.CQRS;
 global using Mapster;
 global using MediatR;
@@ -20,4 +15,7 @@ global using Microsoft.AspNetCore.Routing;
 global using FluentValidation;
 global using Shared.Exceptions;
 global using Shared.Pagination;
+global using Basket.Basket.Models;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Basket.Data;
 

@@ -1,7 +1,10 @@
 
 
-
 var builder = WebApplication.CreateBuilder(args);
+
+// Serilog configuration
+builder.Host.UseSerilog((context, config) =>
+     config.ReadFrom.Configuration(context.Configuration));
 
 // Add Services to the container (Dependincy Injection DI)
 
@@ -17,19 +20,31 @@ builder.Services
     .AddBasketModule(builder.Configuration)
     .AddOrderingModule(builder.Configuration);
 
- 
+
+// register the custom exception handler
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
 
 // Carter middleware
-
 app.MapCarter();
+
+// Use Seirolog request logging
+app.UseSerilogRequestLogging();
+
+// Exception handler middleware
+app.UseExceptionHandler(options => { });
+
+ 
 // configure each module pipeline
 app
     .UseCatalogModule()
     .UseBasketModule()
     .UseOrderingModule();
+
+
 
 
 app.Run();

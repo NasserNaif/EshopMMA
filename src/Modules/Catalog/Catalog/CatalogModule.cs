@@ -26,6 +26,9 @@ public static class CatalogModule
 
             // add pipeline behaviors for MediatR to Validate requests
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+
+            // add pipeline behaviors for MediatR to Log requests
+            cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
         // add fluent validation

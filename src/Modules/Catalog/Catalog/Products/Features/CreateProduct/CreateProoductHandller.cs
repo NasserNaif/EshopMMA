@@ -31,25 +31,6 @@ internal class CreateProoductHandller(CatalogDbContext dbContext
     {
         // Implement the logic to create a product here.
 
-        // Validation of the request
-        // Manual validation handling (uncomment if needed)
-
-        //var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-
-        //if (!validationResult.IsValid)
-        //{
-        //    logger.LogWarning("CreateProductCommand validation failed: {Errors}",
-        //        validationResult.Errors.Select(e => e.ErrorMessage));
-        //    throw new ValidationException(validationResult.Errors);
-        //}
-
-
-        // Logging the creation attempt
-        logger.LogInformation("CreateProoductHandller.handle called with: {ProductName}", request);
-
-
-        // start acual logic to create product
 
         // Create new Product from the request.Product data
         var newProduct = CreateNewProduct(request.Product);

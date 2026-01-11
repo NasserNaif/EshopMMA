@@ -1,6 +1,7 @@
 ﻿
 
 
+using Catalog.Products.Exceptions;
 using MediatR;
 
 namespace Catalog.Products.Features.DeleteProduct;
@@ -26,7 +27,7 @@ internal class DeleteProductHandler(CatalogDbContext dbContext)
 
         if (product == null)
         {
-            throw new Exception($"Product with ID {request.Id} not found.");
+            throw new ProductNotFoundException(request.Id);
         }
 
         dbContext.Products.Remove(product);

@@ -1,6 +1,4 @@
 ﻿
-using Catalog.Products.Models;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catalog.Data;
 
