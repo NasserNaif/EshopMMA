@@ -18,4 +18,5 @@ global using Shared.Pagination;
 global using Basket.Basket.Models;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Basket.Data;
+global using Basket.Basket.Dtos;
 
